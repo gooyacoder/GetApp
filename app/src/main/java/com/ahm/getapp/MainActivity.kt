@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
             input.close()
 
             handler.post {
-                progressBar.progress = progress
+                Toast.makeText(applicationContext, "Download Completed", Toast.LENGTH_SHORT).show()
             }
         }
     }
