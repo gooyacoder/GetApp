@@ -15,9 +15,10 @@
         android:id="@+id/buttonDownload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextUrl"
+        android:layout_below="@id/progressBar"
         android:layout_centerHorizontal="true"
         android:onClick="onDownloadButtonClicked"
+        android:layout_margin="40dp"
         android:text="Download" />
 
     <ProgressBar
@@ -26,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleY="5"
-        android:layout_below="@id/buttonDownload"
+        android:layout_below="@id/editTextUrl"
         android:layout_marginTop="16dp" />
 
 </RelativeLayout>

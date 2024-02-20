@@ -1,12 +1,18 @@
 package com.ahm.getapp
 
 import android.Manifest
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -38,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         url = findViewById(R.id.editTextUrl)
         progressBar = findViewById(R.id.progressBar)
         progressBar.max = 100
+        progressBar.progressTintList = ColorStateList.valueOf(Color.GREEN)
 
         if (allPermissionsGranted()) {
             // Permissions granted, proceed with the app
@@ -69,9 +76,30 @@ class MainActivity : AppCompatActivity() {
         return fileName
     }
     fun onDownloadButtonClicked(view: View) {
+
+        // Create an ObjectAnimator for scaling the button
+        val scaleXAnimator = ObjectAnimator.ofFloat(view, "scaleX", 1.0f, 1.5f)
+        scaleXAnimator.duration = 80 // 1 second
+        scaleXAnimator.repeatCount = 1
+        scaleXAnimator.repeatMode = ObjectAnimator.REVERSE
+
+        val scaleYAnimator = ObjectAnimator.ofFloat(view, "scaleY", 1.0f, 1.5f)
+        scaleYAnimator.duration = 80 // 1 second
+        scaleYAnimator.repeatCount = 1
+        scaleYAnimator.repeatMode = ObjectAnimator.REVERSE
+
+        // Create an AnimatorSet to play both animations together
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(scaleXAnimator, scaleYAnimator)
+
+        animatorSet.start()
+
         val url: String = url.text.toString()
+        if(url.length == 0)
+            return
         val executor = Executors.newSingleThreadExecutor()
         val handler = Handler(Looper.getMainLooper())
+
         executor.execute {
             var progress: Int = 0
             val connection = URL(url).openConnection()
@@ -108,5 +136,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Download Completed", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
 }
